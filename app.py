@@ -356,7 +356,7 @@ with tab_explore:
             summary.style.format({"Control mean": "{:.2f}",
                                   "Treated mean": "{:.2f}",
                                   "SMD (raw)": "{:+.3f}"})
-                         .applymap(style_smd, subset=["|SMD| > 0.1"]),
+                         .map(style_smd, subset=["|SMD| > 0.1"]),
             use_container_width=True,
         )
         st.caption("**SMD** = standardized mean difference. Values with "
