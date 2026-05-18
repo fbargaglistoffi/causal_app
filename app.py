@@ -364,13 +364,17 @@ with tab_explore:
                    "between treated and control groups before any adjustment.")
 
     st.divider()
-    st.subheader("Distribution of pre-treatment earnings (re75)")
+    # Pick a variable to histogram: pre-treatment earnings for LaLonde,
+    # otherwise the outcome itself (always available).
+    hist_var = "re75" if has_truth else OUTCOME
+    hist_label = "1975 earnings (USD)" if has_truth else hist_var
+    st.subheader(f"Distribution of {hist_var} by treatment status")
     fig, ax = plt.subplots(figsize=(8, 3.5))
-    ax.hist(df.loc[df[TREATMENT]==0, "re75"], bins=30, alpha=0.6,
+    ax.hist(df.loc[df[TREATMENT]==0, hist_var], bins=30, alpha=0.6,
             color=COLORS["control"], label=f"Control (n={(df[TREATMENT]==0).sum()})")
-    ax.hist(df.loc[df[TREATMENT]==1, "re75"], bins=30, alpha=0.6,
+    ax.hist(df.loc[df[TREATMENT]==1, hist_var], bins=30, alpha=0.6,
             color=COLORS["treated"], label=f"Treated (n={(df[TREATMENT]==1).sum()})")
-    ax.set_xlabel("1975 earnings (USD)")
+    ax.set_xlabel(hist_label)
     ax.set_ylabel("Count")
     ax.legend()
     ax.spines[["top", "right"]].set_visible(False)
